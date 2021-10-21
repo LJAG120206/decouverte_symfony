@@ -1,0 +1,46 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ parent() }}Liste des stagiaires + ages{% endblock %}
+
+{% block body %}
+{# données venant de TestController.php#}
+
+    <ol>
+    {% for trainee in trainees|sort %}
+
+        {% if trainee[1] >= ageMore %}
+            <li>{{trainee[0]|upper}} a {{trainee[1]}} ans.</li>            
+
+        {% elseif trainee[1] <= ageLess %}
+            <li>{{trainee[0]|capitalize}} a {{trainee[1]}} ans.</li>
+
+        {% else %}
+            <li>{{trainee[0]}} a {{trainee[1]}} ans.</li>
+        
+        {% endif %}
+    {% endfor %}
+    </ol>
+
+    {% set dateNow = "now"|date('d/m/Y H:i:s') %}
+    <p>Nous sommes le {{dateNow}}.</p>
+
+    
+    {% include 'test/lorem.html.twig' with {
+        color: "blue", 
+        length : trainees|length
+    } %}
+
+
+
+
+    {% import "macros/example.html.twig" as example %}
+    {% set name = trainees[random(0, trainees|length-1)][0] %}
+    {% set character = random('ABC') %}
+    {% set number = random(1,26) %}
+
+    <p>{{ example.concate(name, character,number) }}</p>
+
+    {{example.makeform()}}
+
+
+{% endblock %}
